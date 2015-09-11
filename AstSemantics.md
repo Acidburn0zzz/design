@@ -71,7 +71,7 @@ extending for `memory_size` bytes which can be dynamically adjusted by
 [`resize_memory`](Modules.md#resizing). The linear memory can be considered to
 be an untyped array of bytes. The linear memory is sandboxed; it does not alias
 the execution engine's internal data structures, the execution stack, local
-variables, global variables, or other process memory. The initial state of
+variables, or other process memory. The initial state of
 linear memory is specified by the [module](Modules.md#initial-state-of-linear-memory).
 
 In the MVP, linear memory is not shared between threads of execution. Separate
@@ -218,7 +218,7 @@ contiguous linear memory.
 
 Each function has a fixed, pre-declared number of local variables which occupy a single
 index space local to the function. Parameters are addressed as local variables. Local
-variables do not have addresses and are not aliased in the globals or memory. Local
+variables do not have addresses and are not aliased by linear memory. Local
 variables have local types and are initialized to the appropriate zero value for their
 type at the beginning of the function, except parameters which are initialized to the values
 of the arguments passed to the function.
@@ -229,18 +229,6 @@ of the arguments passed to the function.
 The details of index space for local variables and their types will be further clarified,
 e.g. whether locals with type `int32` and `int64` must be contiguous and separate from
 others, etc.
-
-## Global variables
-
-Global variables are storage locations outside the linear memory.
-Every global has exactly one memory type.
-Accesses to global variables specify the index as an integer literal.
-
-  * `load_global`: load the value of a given global variable
-  * `store_global`: store a given value to a given global variable
-
-The specification will add atomicity annotations in the future. Currently
-all global accesses can be considered "non-atomic".
 
 ## Control flow structures
 
